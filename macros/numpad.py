@@ -1,6 +1,7 @@
-# MACROPAD Hotkeys: Universal Numpad
-
 from adafruit_hid.keycode import Keycode
+
+# colors
+off = 0x000000
 
 app = {
     'name' : 'Numpad',
@@ -8,20 +9,20 @@ app = {
     'macros' : [
         # COLOR    LABEL    KEY SEQUENCE
         # 1st row ----------
-        (0x000000, '7    ', ['7']),
-        (0x004166, '8    ', ['8']),
-        (0x004166, '9    ', ['9']),
+        (off, '7    ', ['7']),
+        (off, '8    ', ['8']),
+        (off, '9    ', ['9']),
         # 2nd row ----------
-        (0x004166, '4    ', ['4']),
-        (0x004166, '5    ', ['5']),
-        (0x004166, '6    ', ['6']),
+        (off, '4    ', ['4']),
+        (off, '5    ', ['5']),
+        (off, '6    ', ['6']),
         # 3rd row ----------
-        (0x004166, '1    ', ['1']),
-        (0x004166, '2    ', ['2']),
-        (0x004166, '3    ', ['3']),
+        (off, '1    ', ['1']),
+        (off, '2    ', ['2']),
+        (off, '3    ', ['3']),
         # 4th row ----------
-        (0x004166, '0    ', ['0']),
-        (0x640A66, '.    ', [Keycode.BACKSPACE]),
-        (0x663F0A, 'ENTER', [Keycode.ENTER])
+        (off, '0    ', ['0']),
+        (off, '.    ', [Keycode.BACKSPACE]),
+        (off, 'ENTER', [Keycode.ENTER])
     ]
 }
