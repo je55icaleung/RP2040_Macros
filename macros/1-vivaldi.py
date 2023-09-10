@@ -25,8 +25,8 @@ app = {
     'macros' : [
         # COLOR    LABEL    KEY SEQUENCE
         # 1st row ----------
-        (pink1, 'SWIFT  ', ['https://drive.google.com/drive/u/4/folders/1KQMKM54nuHQOWGd6uiZHEWAYYsXhS6mu\n']),
-        (pink1, 'CCDC   ', ['https://drive.google.com/drive/u/1/folders/1zebxx8ZfxZZnFBtgCYCLubL5z2KcxA9V\n']),
+        (pink1, 'LINK 1 ', ['INSERT LINK\n']),
+        (pink1, 'LINK 2 ', ['INSERT LINK\n']),
         (pink1, 'Outlook', ['https://outlook.office.com/mail/\n']),
         # 2nd row ----------
         (pink2, 'Book   ', [ctrl, 'b']),
