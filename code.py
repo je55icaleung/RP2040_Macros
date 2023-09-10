@@ -11,8 +11,7 @@ macropad = MacroPad()
 screen = Display(macropad)
 pixels = Pixels(macropad)
 last_position = None
-sleeping = False
-last_encoder_switch = macropad.encoder_switch_debounced.pressed
+leds_off = False  # Keep track of LED state
 app_index = 0
 
 screen.initialize()
@@ -23,7 +22,7 @@ if not apps:
     while True:
         pass
 
-try: # Test the USB HID connection
+try:  # Test the USB HID connection
     macropad.keyboard.release_all()
 except OSError as err:
     print(err)
@@ -42,36 +41,35 @@ while True:
 
     macropad.encoder_switch_debounced.update()
     encoder_switch = macropad.encoder_switch_debounced.pressed
-    if encoder_switch != last_encoder_switch:
-        last_encoder_switch = encoder_switch
-        key_number = 12
-        pressed = encoder_switch
+
+    if encoder_switch:
+        # Toggle the state of the LEDs when the encoder button is pressed
+        leds_off = not leds_off
+
+    if leds_off:
+        # Turn off the LEDs using the sleep function
+        pixels.sleep()
     else:
-        event = macropad.keys.events.get()
-        if not event or event.key_number >= len(apps[app_index].macros):
-            continue # No key events, or no corresponding macro, resume loop
-        key_number = event.key_number
-        pressed = event.pressed
+        # Resume the LEDs
+        pixels.resume()
 
-    sequence = apps[app_index].macros[key_number][2] if key_number < 12  else []
+    event = macropad.keys.events.get()
+    if not event or event.key_number >= len(apps[app_index].macros):
+        continue
+
+    key_number = event.key_number
+    pressed = event.pressed
+
+    sequence = apps[app_index].macros[key_number][2] if key_number < 12 else []
     if pressed:
-        if not sleeping and key_number < 12:
+        if key_number < 12:
+            # Turn on the LED when a key is pressed
             pixels.highlight(key_number, 0xFFFFFF)
-        elif key_number is 12:
-            if not sleeping:
-                screen.sleep()
-                pixels.sleep()
-            else:
-                screen.resume()
-                pixels.resume()
-            sleeping = not sleeping
-
         for item in sequence:
             keyfactory.get(item).press(macropad)
-
     else:
-        # Release any still-pressed keys
         for item in sequence:
             keyfactory.get(item).release(macropad)
-        if not sleeping and key_number < 12: # No pixel for encoder button
+        if key_number < 12:
+            # Reset the LED state for the corresponding key
             pixels.reset(key_number)
